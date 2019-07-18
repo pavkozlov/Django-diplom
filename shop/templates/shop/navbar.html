@@ -1,0 +1,42 @@
+{% load static %}
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="{% url 'mainpage' %}">Просто магазин</a>
+    <img src="{% static '/shop/logo.svg' %}" alt="" width="42" height="42">
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item {% if request.resolver_match.url_name == 'mainpage' %} active {% endif %}">
+                <a class="nav-link" href="{% url 'mainpage' %}">Главная</a>
+            </li>
+
+            {% for category in categories %}
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdown01"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{category.title}}</a>
+                {% if category.sub_categories.count > 0 %}
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    {% for sub_cat in category.sub_categories %}
+                    <a class="dropdown-item" href="#">{{sub_cat.title}}</a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </li>
+
+            {% endfor %}
+
+        </ul>
+        <a class="btn btn-outline-success my-2 my-sm-0" role="button" href="#">Корзина</a>
+
+
+        <a class="btn btn-outline-success my-2 my-sm-0" role="button" href="#">
+            {% if request.user.is_authenticated %} Выйти {% else %} Войти {% endif %}
+        </a>
+
+    </div>
+</nav>
