@@ -1,13 +1,10 @@
+{% load static %}
 <div class="col-md-4">
-    <h2>{{item..title}}</h2>
+    <h2>{{item.title}}</h2>
     <a href="#">
-        <img src="{% static /shop/{{item.photo}}" width="180">
+        <img src="{{item.photo.url}}" width="180">
     </a>
     <form>
         <input type="submit" class="btn btn-secondary" value="Добавить в корзину »">
     </form>
-</div>
-{% empty %}
-<div class="col-md-4">
-    <h2>Не найдено подходящих товаров :(</h2>
 </div>

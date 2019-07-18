@@ -8,24 +8,12 @@
 
 <div class="container mb-5">
     <div class="row">
-        {% for item in article.items %}
-        {% include 'item.html' with item=item%}
-        {% empty %}
-        <div class="col-md-4">
-            <h2>Не найдено подходящих товаров :(</h2>
-        </div>
+        {% for item in article.items.all %}
+        {% include 'shop/item.html' with item=item %}
         {% endfor %}
     </div>
 </div>
 
-{% empty %}
-
-<div class="jumbotron">
-    <div class="container">
-        <h1 class="display-4">Добро пожаловать на сайт просто магазина</h1>
-        <p>Статей пока нет, но скоро обязательно появятся</p>
-    </div>
-</div>
 
 {% endfor %}
 
