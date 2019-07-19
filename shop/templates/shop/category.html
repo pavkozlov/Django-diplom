@@ -1,0 +1,16 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+<div class="container">
+
+    <h1>{{category.title}}</h1>
+
+    <div class="row">
+
+        {% for item in category.items.all %}
+        {% include 'shop/item.html' with item=item %}
+        {% endfor %}
+
+    </div>
+
+</div>
+{% endblock %}

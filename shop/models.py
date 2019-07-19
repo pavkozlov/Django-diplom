@@ -24,7 +24,7 @@ class Review(models.Model):
     name = models.CharField(max_length=150)
     text = models.TextField()
     start = models.IntegerField()
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='reviews')
 
 
 class Category(models.Model):
