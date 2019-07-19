@@ -10,12 +10,12 @@
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
+
             <li class="nav-item {% if request.resolver_match.url_name == 'mainpage' %} active {% endif %}">
                 <a class="nav-link" href="{% url 'mainpage' %}">Главная</a>
             </li>
 
             {% for category in categories %}
-
             <li class="nav-item dropdown {% if request.resolver_match.url_name == 'category' %} active {% endif %}">
                 {% if category.sub_categories.count > 0 %}
                 <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
@@ -25,13 +25,15 @@
                     <a class="dropdown-item" href="{% url 'category' id=sub_cat.id%}">{{sub_cat.title}}</a>
                     {% endfor %}
                 </div>
+
                 {% else %}
-                <a class="nav-link" href="{% url 'category' id=category.id%}" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false">{{category.title}}</a>
+
+                <a class="nav-link" href="{% url 'category' id=category.id %}">{{category.title}}</a>
+
                 {% endif %}
             </li>
-
             {% endfor %}
+
 
         </ul>
         <a class="btn btn-outline-success my-2 my-sm-0" role="button" href="#">Корзина</a>

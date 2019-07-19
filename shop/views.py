@@ -1,5 +1,5 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Category, Article, Item
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Category, Article, Item, Review
 from .forms import AddReview
 
 
@@ -23,5 +23,15 @@ def item_detail(request, id):
     context = dict()
     context['forms'] = AddReview()
     context['categories'] = Category.objects.filter(is_main=True)
-    context['item'] = get_object_or_404(Item, id=id)
+    context['item'] = Item.objects.get(id=id)
     return render(request, 'shop/item_detail.html', context=context)
+
+
+def add_review(request, item_id):
+    form = AddReview(request.POST)
+    if form.is_valid():
+        item = Item.objects.get(id=item_id)
+        Review.objects.create(name=form.cleaned_data['name'], text=form.cleaned_data['text'],
+                              star=form.cleaned_data['star'], item=item)
+
+    return redirect('item_detail', id=item_id)

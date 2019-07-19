@@ -23,14 +23,15 @@ class Item(models.Model):
 class Review(models.Model):
     name = models.CharField(max_length=150)
     text = models.TextField()
-    start = models.IntegerField()
+    star = models.IntegerField()
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='reviews')
 
 
 class Category(models.Model):
     title = models.CharField(max_length=150)
     is_main = models.BooleanField()
-    main_category = models.ForeignKey('Category', related_name='sub_categories', on_delete=models.CASCADE, blank=True, null=True)
+    main_category = models.ForeignKey('Category', related_name='sub_categories', on_delete=models.CASCADE, blank=True,
+                                      null=True)
 
     def __str__(self):
         return self.title
