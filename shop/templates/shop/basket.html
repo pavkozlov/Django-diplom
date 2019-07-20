@@ -11,13 +11,13 @@
             </h4>
 
             <ul class="list-group mb-3">
-                {% for item in basket.items.all %}
+                {% for item in i_t_b %}
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                     <div>
-                        <h6 class="my-0">{{item.title}}</h6>
-                        <small class="text-muted">{{item.text}}</small>
+                        <h6 class="my-0">{{item.item}}</h6>
+                        <small class="text-muted">{{item.item.text}}</small>
                     </div>
-                    <span class="text-muted">4</span>
+                    <span class="text-muted">{{item.count}}</span>
                 </li>
                 {% endfor %}
             </ul>

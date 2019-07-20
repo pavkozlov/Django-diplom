@@ -39,7 +39,7 @@ class Category(models.Model):
 
 class Basket(models.Model):
     sid = models.CharField(max_length=150)
-    items = models.ManyToManyField(Item, through='ItemInBasket')
+    items = models.ManyToManyField(Item, through='ItemInBasket', related_name='basket')
 
 
 class ItemInBasket(models.Model):

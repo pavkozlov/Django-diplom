@@ -4,7 +4,7 @@
     <a href="{% url 'item_detail' id=item.id %}">
         <img src="{{item.photo.url}}" width="180">
     </a>
-    <form action="#" method="get">
+    <form action="{% url 'to_basket' item_id=item.id %}" method="get">
         <input type="submit" class="btn btn-secondary" value="Добавить в корзину »">
     </form>
 </div>
