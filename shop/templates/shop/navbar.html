@@ -36,7 +36,7 @@
 
 
         </ul>
-        <a class="btn btn-outline-success my-2 my-sm-0" role="button" href="#">Корзина</a>
+        <a class="btn btn-outline-success my-2 my-sm-0 {% if request.resolver_match.url_name == 'basket_view'%}active{%endif%}" role="button" href="{% url 'basket_view' %}">Корзина</a>
 
 
         <a class="btn btn-outline-success my-2 my-sm-0" role="button" href="#">
