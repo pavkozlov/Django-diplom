@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect, get_list_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Article, Item, Review, Basket, ItemInBasket
 from .forms import AddReview
 from django.core.cache import cache
@@ -18,6 +18,7 @@ def category(request, id):
     context = dict()
     context['categories'] = get_categories()
     context['category'] = get_object_or_404(Category, id=id)
+    context['cat_name'] = context['category'].title
     return render(request, 'shop/category.html', context=context)
 
 
@@ -40,7 +41,7 @@ def add_review(request, item_id):
 def basket_view(request):
     context = dict()
     context['categories'] = get_categories()
-    context['i_t_b'] = ItemInBasket.objects.filter(basket=get_basket(request)).select_related('item')
+    context['basket'] = ItemInBasket.objects.filter(basket=get_basket(request)).select_related('item')
     return render(request, 'shop/basket.html', context=context)
 
 
