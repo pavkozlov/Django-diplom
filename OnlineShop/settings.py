@@ -115,3 +115,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = '../static/'
 MEDIA_URL = '/media/'
+
+AUTHENTICATION_BACKENDS = ['shop.backends.UserEmailBackend']  # , 'django.contrib.auth.backends.ModelBackend',]
+
+LOGIN_REDIRECT_URL = 'mainpage'
