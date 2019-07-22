@@ -4,6 +4,7 @@ from .forms import AddReview
 from django.core.cache import cache
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -17,8 +18,24 @@ def mainpage(request):
 def category(request, id):
     context = dict()
     context['categories'] = get_categories()
-    context['category'] = get_object_or_404(Category, id=id)
-    context['cat_name'] = context['category'].title
+
+    page = request.GET.get('page')
+    page = 1 if not page else int(page)
+
+    posts = Item.objects.filter(cathegory_id=id).select_related('cathegory')
+
+    try:
+        cat = posts[0].cathegory
+    except IndexError:
+        cat = Category.objects.get(id=id)
+
+    paginator = Paginator(posts, 2)
+
+    if page > paginator.num_pages:
+        page = 1
+
+    context['items'] = paginator.page(page)
+    context['cat'] = cat
     return render(request, 'shop/category.html', context=context)
 
 
