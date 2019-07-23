@@ -38,7 +38,8 @@ class Category(models.Model):
 
 
 class Basket(models.Model):
-    sid = models.CharField(max_length=150)
+    sid = models.CharField(max_length=150, blank=True, null=True)
+    username = models.CharField(max_length=150, blank=True, null=True)
     items = models.ManyToManyField(Item, through='ItemInBasket', related_name='basket')
 
 
@@ -50,6 +51,7 @@ class ItemInBasket(models.Model):
 
 class Order(models.Model):
     items = models.ManyToManyField(Item, through='ItemInOrder')
+    owner = models.CharField(max_length=150, default='no owner')
 
 
 class ItemInOrder(models.Model):

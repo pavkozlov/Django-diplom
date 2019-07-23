@@ -22,7 +22,7 @@
                 {% endfor %}
             </ul>
 
-            <form class="card p-2">
+            <form class="card p-2" action="{% url 'create_order' %}">
                 <button type="submit" class="btn btn-secondary">Заказать</button>
             </form>
         </div>

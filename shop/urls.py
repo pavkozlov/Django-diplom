@@ -14,6 +14,7 @@ urlpatterns = [
     path('basket/', views.basket_view, name='basket_view'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('create_order', views.create_order, name='create_order')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

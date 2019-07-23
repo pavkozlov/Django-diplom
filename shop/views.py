@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Category, Article, Item, Review, Basket, ItemInBasket
+from .models import Category, Article, Item, Review, Basket, ItemInBasket, ItemInOrder, Order
 from .forms import AddReview
 from django.core.cache import cache
 from django.db.models.signals import post_delete, post_save
@@ -10,6 +10,7 @@ from django.core.paginator import Paginator
 # Create your views here.
 def mainpage(request):
     context = dict()
+    get_sid(request)
     context['categories'] = get_categories()
     context['articles'] = Article.objects.all().prefetch_related('items').order_by('id')
     return render(request, 'shop/index.html', context=context)
@@ -58,12 +59,14 @@ def add_review(request, item_id):
 def basket_view(request):
     context = dict()
     context['categories'] = get_categories()
-    context['basket'] = ItemInBasket.objects.filter(basket=get_basket(request)).select_related('item')
+    basket = get_basket(get_sid(request))
+    context['basket'] = ItemInBasket.objects.filter(basket=basket).select_related('item')
     return render(request, 'shop/basket.html', context=context)
 
 
 def to_basket(request, item_id):
-    basket = get_basket(request)
+    sid = get_sid(request)
+    basket = get_basket(sid)
     item = Item.objects.get(id=item_id)
 
     item_in_basket = ItemInBasket.objects.filter(basket=basket, item=item)
@@ -77,18 +80,36 @@ def to_basket(request, item_id):
     return redirect(basket_view)
 
 
-def get_basket(request):
-    sid = request.session.session_key
-    if not sid:
-        request.session.cycle_key()
-        sid = request.session.session_key
+def create_order(request):
+    basket = get_basket(get_sid(request))
+    items = basket.items.all()
 
+    if items:
+        order = Order.objects.create(owner=get_sid(request))
+        for item in items:
+            iib = ItemInBasket.objects.get(item=item, basket=basket)
+            ItemInOrder.objects.create(item=item, order=order, count=iib.count)
+            iib.delete()
+    return redirect('mainpage')
+
+
+def get_basket(sid):
     basket = Basket.objects.filter(sid=sid)
     if not basket:
         basket = Basket.objects.create(sid=sid)
     else:
         basket = basket.first()
     return basket
+
+
+def get_sid(request):
+    if not request.user.is_authenticated:
+        sid = request.session.session_key
+        if not sid:
+            sid = request.session.cycle_key()
+    else:
+        sid = request.user.username
+    return sid
 
 
 def get_categories():
