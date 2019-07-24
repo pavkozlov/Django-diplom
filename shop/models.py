@@ -9,6 +9,11 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = "Статья"
+        verbose_name_plural = "Статьи"
+        ordering = ['id']
+
 
 class Item(models.Model):
     title = models.CharField(max_length=150)
@@ -18,6 +23,11 @@ class Item(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = "Товар"
+        verbose_name_plural = "Товары"
+        ordering = ['id']
 
 
 class Review(models.Model):
@@ -36,6 +46,11 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = "Раздел"
+        verbose_name_plural = "Разделы"
+        ordering = ['id']
+
 
 class Basket(models.Model):
     sid = models.CharField(max_length=150, blank=True, null=True)
@@ -52,6 +67,11 @@ class ItemInBasket(models.Model):
 class Order(models.Model):
     items = models.ManyToManyField(Item, through='ItemInOrder')
     owner = models.CharField(max_length=150, default='no owner')
+
+    class Meta:
+        verbose_name = "Заказ"
+        verbose_name_plural = "Заказы"
+        ordering = ['id']
 
 
 class ItemInOrder(models.Model):
