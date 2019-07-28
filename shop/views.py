@@ -40,7 +40,7 @@ def category(request, id):
         page = 1
 
     context['items'] = paginator.page(page)
-    context['cat'] = cat
+    context['cat_name'] = cat.title
     return render(request, 'shop/category.html', context=context)
 
 
