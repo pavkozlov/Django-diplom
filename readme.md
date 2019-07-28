@@ -49,8 +49,12 @@ pip install -r requirements.txt
 python manage.py migrate
 ```
 
+* Команда для загрузки данных в БД
+```bash
+python manage.py dumpdata > dumpdata.json
+```
+
 * Команда для запуска приложения
 ```bash
 python manage.py runserver
 ```
-
